@@ -1,0 +1,104 @@
+/* style.css - Estilos básicos para Alke Wallet */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo general del body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    padding: 20px;
+}
+
+/* Títulos principales */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Títulos secundarios */
+h2 {
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+/* Estilo para formularios */
+form {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+/* Etiquetas del formulario */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Campos de entrada (input) */
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Botones */
+button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para botones */
+button:hover {
+    background-color: #219150;
+}
+
+/* Estilo para enlaces */
+a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+/* Efecto hover para enlaces */
+a:hover {
+    text-decoration: underline;
+}
+
+/* Lista de navegación en menu.html */
+nav ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+nav ul li {
+    margin-bottom: 10px;
+}
+
+/* Contenedores generales para secciones */
+section {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin-bottom: 20px;
+}
