@@ -3,24 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Enviar Dinero | Alke Wallet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <h1>Enviar dinero</h1>
+    <div class="container mt-4">
+        <h1 class="text-primary mb-4">Enviar dinero</h1>
 
-    <form>
-        <label for="contact">Contacto</label><br>
-        <input type="text" id="contact" name="contact" required><br><br>
+        <form>
+            <div class="form-group">
+                <label for="contact">Contacto</label>
+                <input type="text" class="form-control" id="contact" name="contact" required>
+            </div>
 
-        <label for="amount">Monto a enviar</label><br>
-        <input type="number" id="amount" name="amount" required><br><br>
+            <div class="form-group">
+                <label for="amount">Monto a enviar</label>
+                <input type="number" class="form-control" id="amount" name="amount" required>
+            </div>
 
-        <button type="submit">Enviar</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
 
-    <br>
-    <a href="menu.html">Volver al menú</a>
+        <a href="menu.html" class="btn btn-link mt-3">Volver al menú</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>
