@@ -3,22 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Login | Alke Wallet</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Tu CSS personalizado -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <h1>Alke Wallet</h1>
-    <h2>Iniciar sesión</h2>
+    <!-- Contenedor Bootstrap -->
+    <div class="container mt-5">
 
-    <form>
-        <label for="email">Correo electrónico</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+        <h1 class="text-primary mb-4">Alke Wallet</h1>
+        <h2 class="mb-4">Iniciar sesión</h2>
 
-        <label for="password">Contraseña</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <form>
+            <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
 
-        <button type="submit">Ingresar</button>
-    </form>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-success">Ingresar</button>
+        </form>
+    </div>
+
+    <!-- Scripts Bootstrap y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JS personalizado -->
+    <script src="js/main.js"></script>
 
 </body>
 </html>
