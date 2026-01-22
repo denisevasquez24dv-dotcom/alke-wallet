@@ -91,7 +91,7 @@ function manejarDeposito() {
 }
 
 function manejarEnvioDinero() {
-  const form = document.querySelector("form");
+  const form = document.getElementById("form-envio");
   const contactInput = document.getElementById("contact");
   const amountInput = document.getElementById("amount");
 
