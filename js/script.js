@@ -1,3 +1,9 @@
+// Variables globales para saldo e historial de transacciones
+let saldoDisponible = 1000; // saldo inicial
+let historialTransacciones = [
+  { fecha: "2026-01-20", descripcion: "Saldo inicial", monto: saldoDisponible }
+];
+
 document.addEventListener("DOMContentLoaded", function () {
   const pagina = document.title;
 
@@ -67,7 +73,19 @@ function manejarDeposito() {
       return;
     }
 
-    alert(`Depósito de $${amount.toFixed(2)} realizado con éxito.`);
+    // Actualizar saldo global
+    saldoDisponible += amount;
+
+    // Agregar transacción al historial con fecha actual
+    const fechaActual = new Date().toISOString().split("T")[0];
+    historialTransacciones.push({
+      fecha: fechaActual,
+      descripcion: "Depósito",
+      monto: amount,
+    });
+
+    alert(`Depósito de $${amount.toFixed(2)} realizado con éxito. Saldo actual: $${saldoDisponible.toFixed(2)}`);
+
     amountInput.value = "";
   });
 }
@@ -93,8 +111,26 @@ function manejarEnvioDinero() {
       amountInput.focus();
       return;
     }
+    if (amount > saldoDisponible) {
+    console.log("Saldo disponible:", saldoDisponible, "Monto a enviar:", amount); 
+      alert("Saldo insuficiente para realizar la transferencia.");
+      amountInput.focus();
+      return;
+    }
 
-    alert(`Enviado $${amount.toFixed(2)} a ${contact} con éxito.`);
+    // Restar del saldo global
+    saldoDisponible -= amount;
+
+    // Agregar transacción al historial con fecha actual
+    const fechaActual = new Date().toISOString().split("T")[0];
+    historialTransacciones.push({
+      fecha: fechaActual,
+      descripcion: `Envío a ${contact}`,
+      monto: -amount,
+    });
+
+    alert(`Enviado $${amount.toFixed(2)} a ${contact} con éxito. Saldo actual: $${saldoDisponible.toFixed(2)}`);
+
     contactInput.value = "";
     amountInput.value = "";
   });
@@ -102,12 +138,7 @@ function manejarEnvioDinero() {
 
 function mostrarTransacciones() {
   const section = document.querySelector("section");
-
-  const transacciones = [
-    { fecha: "2026-01-20", descripcion: "Depósito", monto: 500 },
-    { fecha: "2026-01-21", descripcion: "Envío a Juan", monto: -100 },
-    { fecha: "2026-01-22", descripcion: "Depósito", monto: 300 },
-  ];
+  if (!section) return; // evita errores si no encuentra el contenedor
 
   let html = `<table class="table table-striped">
                 <thead>
@@ -119,7 +150,7 @@ function mostrarTransacciones() {
                 </thead>
                 <tbody>`;
 
-  transacciones.forEach(tx => {
+  historialTransacciones.forEach(tx => {
     html += `<tr>
                <td>${tx.fecha}</td>
                <td>${tx.descripcion}</td>
