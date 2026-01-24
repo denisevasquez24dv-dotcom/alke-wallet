@@ -1,3 +1,12 @@
+// Función para formatear números a peso chileno
+function formatoPesosCLP(valor) {
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+    minimumFractionDigits: 0, // Pesos no tienen centavos
+  }).format(valor);
+}
+
 // Variables globales para saldo e historial de transacciones
 let saldoDisponible = 1000; // saldo inicial
 let historialTransacciones = [
@@ -84,7 +93,7 @@ function manejarDeposito() {
       monto: amount,
     });
 
-    alert(`Depósito de $${amount.toFixed(2)} realizado con éxito. Saldo actual: $${saldoDisponible.toFixed(2)}`);
+   alert(`Depósito de ${formatoPesosCLP(amount)} realizado con éxito. Saldo actual: ${formatoPesosCLP(saldoDisponible)}`);
 
     amountInput.value = "";
   });
@@ -129,7 +138,7 @@ function manejarEnvioDinero() {
       monto: -amount,
     });
 
-    alert(`Enviado $${amount.toFixed(2)} a ${contact} con éxito. Saldo actual: $${saldoDisponible.toFixed(2)}`);
+    alert(`Enviado ${formatoPesosCLP(amount)} a ${contact} con éxito. Saldo actual: ${formatoPesosCLP(saldoDisponible)}`);
 
     contactInput.value = "";
     amountInput.value = "";
@@ -154,7 +163,7 @@ function mostrarTransacciones() {
     html += `<tr>
                <td>${tx.fecha}</td>
                <td>${tx.descripcion}</td>
-               <td>${tx.monto < 0 ? '-' : ''}$${Math.abs(tx.monto).toFixed(2)}</td>
+               <td>${tx.monto < 0 ? '-' : ''}${formatoPesosCLP(Math.abs(tx.monto))}</td>
              </tr>`;
   });
 
