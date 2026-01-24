@@ -162,3 +162,16 @@ function mostrarTransacciones() {
 
   section.innerHTML = html;
 }
+$(document).ready(function () {
+
+  // Efecto visual en los inputs de monto
+  $("#amount").on("focus", function () {
+    $(this).css("background-color", "#e6f2ff");
+  });
+
+  $("#amount").on("blur", function () {
+    $(this).css("background-color", "white");
+  });
+
+
+});
