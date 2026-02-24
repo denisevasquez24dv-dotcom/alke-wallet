@@ -53,33 +53,39 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 
-    <script>
+     <script>
+    $(document).ready(function() {
         function mostrarMovimientos() {
-    // Leer historial **al momento de mostrar**
-    let historial = JSON.parse(localStorage.getItem("historial")) || [];
+            // Leer historial desde localStorage
+            let historial = JSON.parse(localStorage.getItem("historial")) || [];
+            const $tbody = $("#tabla-movimientos tbody");
+            $tbody.empty();
 
-    const $tbody = $("#tabla-movimientos tbody");
-    $tbody.empty();
+            if(historial.length === 0) {
+                // Mensaje si no hay movimientos
+                $tbody.append(`
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">No hay movimientos registrados</td>
+                    </tr>
+                `).hide().fadeIn(500);
+            } else {
+                historial.forEach(mov => {
+                    const contacto = mov.contacto ? mov.contacto : "-";
+                    $tbody.append(`
+                        <tr>
+                            <td>${mov.tipo}</td>
+                            <td>${contacto}</td>
+                            <td>$${Number(mov.monto).toLocaleString()}</td>
+                            <td>${mov.fecha}</td>
+                        </tr>
+                    `).hide().fadeIn(500);
+                });
+            }
+        }
 
-    historial.forEach(mov => {
-        const contacto = mov.contacto ? mov.contacto : "-";
-        $tbody.append(`
-            <tr>
-                <td>${mov.tipo}</td>
-                <td>${contacto}</td>
-                <td>$${Number(mov.monto).toLocaleString()}</td>
-                <td>${mov.fecha}</td>
-            </tr>
-        `);
+        mostrarMovimientos();
     });
-
-    $("#tabla-movimientos").fadeIn(500);
-}
-
-$(document).ready(function() {
-    mostrarMovimientos();
-});
-</script>
+    </script>
 
 </body>
 </html>
