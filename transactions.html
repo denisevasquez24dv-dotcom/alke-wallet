@@ -8,21 +8,89 @@
 </head>
 <body>
 
+    <!-- Navbar responsive -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <a class="navbar-brand" href="menu.html">Alke Wallet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="menu.html">Menú</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container mt-4">
         <h1 class="text-primary mb-4">Últimos movimientos</h1>
 
-        <section class="bg-white p-4 rounded shadow-sm">
-            <p>Aquí se mostrarán las transacciones recientes.</p>
-            <!-- En desarrollo: Tabla o lista de movimientos -->
+<section class="bg-white p-4 rounded shadow-sm">
+            <table class="table table-striped" id="tabla-movimientos">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Contacto</th>
+                        <th>Monto</th>
+                        <th>Fecha / Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Movimientos-->
+                </tbody>
+            </table>
+        </section>
+
+      
+         
         </section>
 
         <a href="menu.html" class="btn btn-link mt-3">Volver al menú</a>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
+
+<script>
+function mostrarTransacciones() {
+
+  let historial = obtenerHistorial();
+
+  const section = document.querySelector("section");
+  if (!section) return;
+
+  if (historial.length === 0) {
+    section.innerHTML = "<p>No hay movimientos registrados</p>";
+    return;
+  }
+
+  let html = `<table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Contacto</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+
+  historial.forEach(tx => {
+    html += `<tr>
+               <td>${tx.tipo}</td>
+               <td>${tx.contacto}</td>
+               <td>${formatoPesosCLP(tx.monto)}</td>
+               <td>${tx.fecha}</td>
+             </tr>`;
+  });
+
+  html += `</tbody></table>`;
+
+  section.innerHTML = html;
+}
+</script>
 
 </body>
 </html>
