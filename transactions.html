@@ -53,35 +53,33 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 
-      <script>
-    $(document).ready(function() {
-        // Obtener historial desde localStorage o inicializar
-        let historial = JSON.parse(localStorage.getItem("historial")) || [];
-
-        // Función para mostrar movimientos
+    <script>
         function mostrarMovimientos() {
-            const $tbody = $("#tabla-movimientos tbody");
-            $tbody.empty();
+    // Leer historial **al momento de mostrar**
+    let historial = JSON.parse(localStorage.getItem("historial")) || [];
 
-            historial.forEach(mov => {
-                const contacto = mov.contacto ? mov.contacto : "-";
-                $tbody.append(`
-                    <tr>
-                        <td>${mov.tipo}</td>
-                        <td>${contacto}</td>
-                        <td>$${Number(mov.monto).toLocaleString()}</td>
-                        <td>${mov.fecha}</td>
-                    </tr>
-                `);
-            });
+    const $tbody = $("#tabla-movimientos tbody");
+    $tbody.empty();
 
-            // Animación jQuery
-            $("#tabla-movimientos").fadeIn(500);
-        }
-
-        mostrarMovimientos();
+    historial.forEach(mov => {
+        const contacto = mov.contacto ? mov.contacto : "-";
+        $tbody.append(`
+            <tr>
+                <td>${mov.tipo}</td>
+                <td>${contacto}</td>
+                <td>$${Number(mov.monto).toLocaleString()}</td>
+                <td>${mov.fecha}</td>
+            </tr>
+        `);
     });
-    </script>
+
+    $("#tabla-movimientos").fadeIn(500);
+}
+
+$(document).ready(function() {
+    mostrarMovimientos();
+});
+</script>
 
 </body>
 </html>
