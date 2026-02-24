@@ -49,69 +49,49 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            // Contactos 
-            const contactos = ["Juan Pérez", "María García", "Pedro López", "Ana Torres"];
-
-            // Obtener saldo desde localStorage o inicializar
-            let saldo = localStorage.getItem("saldo") ? Number(localStorage.getItem("saldo")) : 10000;
-
-            // Autocompletado
-            $("#contact").on("input", function() {
-                const busqueda = $(this).val().toLowerCase();
-                const $sugerencias = $("#listaSugerencias");
-                $sugerencias.empty();
-
-                if(busqueda.length > 0) {
-                    contactos.filter(c => c.toLowerCase().includes(busqueda))
-                        .forEach(c => {
-                            $sugerencias.append(`<li class="list-group-item contact-item">${c}</li>`);
-                        });
-                    $sugerencias.slideDown(200);
-                } else {
-                    $sugerencias.slideUp(200);
-                }
-            });
-
-            // Selección de contacto
-            $(document).on("click", ".contact-item", function() {
-                $("#contact").val($(this).text());
-                $("#listaSugerencias").slideUp(200);
-            });
-
-            // Enviar dinero
-            $("#form-envio").submit(function(e) {
-                e.preventDefault();
-                const contact = $("#contact").val();
-                const amount = Number($("#amount").val());
-
-                if(contact === "" || amount <= 0) {
-                    $("#mensaje").removeClass("alert-success").addClass("alert-danger")
-                        .text("Por favor completa todos los campos con valores válidos")
-                        .slideDown(300).delay(2000).slideUp(300);
-                    return;
-                }
-
-                if(amount > saldo) {
-                    $("#mensaje").removeClass("alert-success").addClass("alert-danger")
-                        .text("Saldo insuficiente")
-                        .slideDown(300).delay(2000).slideUp(300);
-                    return;
-                }
-
-                saldo -= amount;
-                localStorage.setItem("saldo", saldo);
-
-                $("#mensaje").removeClass("alert-danger").addClass("alert-success")
-                    .text(`Se enviaron $${amount.toLocaleString()} a ${contact}`)
+     <script>
+    $(document).ready(function() {
+        $("#form-envio").submit(function(e) {
+            e.preventDefault();
+            const contact = $("#contact").val();
+            const amount = Number($("#amount").val());
+            if(amount <= 0) {
+                $("#mensaje").removeClass("alert-success").addClass("alert-danger")
+                    .text("Ingrese un monto válido")
                     .slideDown(300).delay(2000).slideUp(300);
+                return;
+            }
 
-                // Limpiar formulario
-                $("#amount").val("");
-                $("#contact").val("");
+            // Verificar saldo suficiente
+            let saldo = Number(localStorage.getItem("saldo")) || 10000;
+            if(amount > saldo) {
+                $("#mensaje").removeClass("alert-success").addClass("alert-danger")
+                    .text("Saldo insuficiente")
+                    .slideDown(300).delay(2000).slideUp(300);
+                return;
+            }
+
+            saldo -= amount;
+            localStorage.setItem("saldo", saldo);
+
+            // Guardar en historial
+            let historial = JSON.parse(localStorage.getItem("historial")) || [];
+            historial.push({
+                tipo: "Envío",
+                monto: amount,
+                contacto: contact,
+                fecha: new Date().toLocaleString()
             });
+            localStorage.setItem("historial", JSON.stringify(historial));
+
+            $("#mensaje").removeClass("alert-danger").addClass("alert-success")
+                .text(`Se enviaron $${amount.toLocaleString()} a ${contact}. Saldo actual: $${saldo.toLocaleString()}`)
+                .slideDown(300).delay(2000).slideUp(300);
+
+            $("#amount").val("");
+            $("#contact").val("");
         });
+    });
     </script>
 
 </body>

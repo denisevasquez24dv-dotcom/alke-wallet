@@ -46,14 +46,9 @@
 
       <script>
     $(document).ready(function() {
-        // Obtener saldo desde localStorage o inicializar
-        let saldo = localStorage.getItem("saldo") ? Number(localStorage.getItem("saldo")) : 10000;
-
-        // Manejar depósito
         $("#form-deposito").submit(function(e) {
             e.preventDefault();
             const amount = Number($("#amount").val());
-
             if(amount <= 0) {
                 $("#mensaje").removeClass("alert-success").addClass("alert-danger")
                     .text("Ingrese un monto válido")
@@ -61,14 +56,26 @@
                 return;
             }
 
+            // Actualizar saldo
+            let saldo = Number(localStorage.getItem("saldo")) || 10000;
             saldo += amount;
             localStorage.setItem("saldo", saldo);
 
+            // Guardar en historial
+            let historial = JSON.parse(localStorage.getItem("historial")) || [];
+            historial.push({
+                tipo: "Depósito",
+                monto: amount,
+                contacto: null,
+                fecha: new Date().toLocaleString()
+            });
+            localStorage.setItem("historial", JSON.stringify(historial));
+
+            // Mensaje de éxito
             $("#mensaje").removeClass("alert-danger").addClass("alert-success")
                 .text(`Depósito exitoso: $${amount.toLocaleString()}. Saldo actual: $${saldo.toLocaleString()}`)
                 .slideDown(300).delay(2000).slideUp(300);
 
-            // Limpiar campo
             $("#amount").val("");
         });
     });
