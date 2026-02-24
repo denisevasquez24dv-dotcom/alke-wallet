@@ -53,11 +53,16 @@
     <script src="js/script.js"></script>
 
       <!--Animación jQuery -->
-    <script>
-        $(document).ready(function() {
-            $(".card").hide().fadeIn(600); // animación de la tarjeta de saldo
-        });
-    </script>
+      <script>
+    $(document).ready(function() {
+    
+    $(".card").hide().fadeIn(600);
 
+    $(".list-group").hide().slideDown(600);
+
+    let saldo = Number(localStorage.getItem("saldo")) || 10000;
+    $("#saldoDisplay").text(`$${saldo.toLocaleString()}`);
+});
+</script>
 </body>
 </html>

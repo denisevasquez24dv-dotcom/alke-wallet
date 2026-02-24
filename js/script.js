@@ -1,3 +1,11 @@
+function obtenerHistorial() {
+  return JSON.parse(localStorage.getItem("historial")) || [];
+}
+
+function guardarHistorial(historial) {
+  localStorage.setItem("historial", JSON.stringify(historial));
+}
+
 // Función para formatear números a peso chileno
 function formatoPesosCLP(valor) {
   return new Intl.NumberFormat('es-CL', {
@@ -6,12 +14,6 @@ function formatoPesosCLP(valor) {
     minimumFractionDigits: 0, // Pesos no tienen centavos
   }).format(valor);
 }
-
-// Variables globales para saldo e historial de transacciones
-let saldoDisponible = 1000; // saldo inicial
-let historialTransacciones = [
-  { fecha: "2026-01-20", descripcion: "Saldo inicial", monto: saldoDisponible }
-];
 
 document.addEventListener("DOMContentLoaded", function () {
   const pagina = document.title;

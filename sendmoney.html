@@ -51,47 +51,74 @@
 
      <script>
     $(document).ready(function() {
-        $("#form-envio").submit(function(e) {
-            e.preventDefault();
-            const contact = $("#contact").val();
-            const amount = Number($("#amount").val());
-            if(amount <= 0) {
-                $("#mensaje").removeClass("alert-success").addClass("alert-danger")
-                    .text("Ingrese un monto válido")
-                    .slideDown(300).delay(2000).slideUp(300);
-                return;
-            }
+    const contactos = ["Juan Pérez", "María García", "Pedro López"];
 
-            // Verificar saldo suficiente
-            let saldo = Number(localStorage.getItem("saldo")) || 10000;
-            if(amount > saldo) {
-                $("#mensaje").removeClass("alert-success").addClass("alert-danger")
-                    .text("Saldo insuficiente")
-                    .slideDown(300).delay(2000).slideUp(300);
-                return;
-            }
+    // Autocompletado de contactos
+    $("#contact").on("input", function() {
+        const busqueda = $(this).val().toLowerCase();
+        const $sugerencias = $("#listaSugerencias");
+        $sugerencias.empty();
 
-            saldo -= amount;
-            localStorage.setItem("saldo", saldo);
-
-            // Guardar en historial
-            let historial = JSON.parse(localStorage.getItem("historial")) || [];
-            historial.push({
-                tipo: "Envío",
-                monto: amount,
-                contacto: contact,
-                fecha: new Date().toLocaleString()
+        contactos.filter(c => c.toLowerCase().includes(busqueda))
+            .forEach(c => {
+                $sugerencias.append(`<li class="list-group-item">${c}</li>`);
             });
-            localStorage.setItem("historial", JSON.stringify(historial));
 
-            $("#mensaje").removeClass("alert-danger").addClass("alert-success")
-                .text(`Se enviaron $${amount.toLocaleString()} a ${contact}. Saldo actual: $${saldo.toLocaleString()}`)
-                .slideDown(300).delay(2000).slideUp(300);
-
-            $("#amount").val("");
-            $("#contact").val("");
-        });
+        if($sugerencias.children().length > 0){
+            $sugerencias.slideDown(200);
+        } else {
+            $sugerencias.slideUp(200);
+        }
     });
+
+    // Seleccionar contacto al hacer clic
+    $("#listaSugerencias").on("click", "li", function() {
+        $("#contact").val($(this).text());
+        $("#listaSugerencias").slideUp(200);
+    });
+
+    // Enviar dinero
+    $("#form-envio").submit(function(e) {
+        e.preventDefault();
+        const contact = $("#contact").val();
+        const amount = Number($("#amount").val());
+        if(amount <= 0){
+            $("#mensaje").removeClass("alert-success").addClass("alert-danger")
+                .text("Ingrese un monto válido")
+                .slideDown(300).delay(2000).slideUp(300);
+            return;
+        }
+
+        let saldo = Number(localStorage.getItem("saldo")) || 10000;
+        if(amount > saldo){
+            $("#mensaje").removeClass("alert-success").addClass("alert-danger")
+                .text("Saldo insuficiente")
+                .slideDown(300).delay(2000).slideUp(300);
+            return;
+        }
+
+        saldo -= amount;
+        localStorage.setItem("saldo", saldo);
+
+        let historial = obtenerHistorial();
+
+  historial.push({
+  tipo: "Envío",
+  contacto: contact,
+  monto: amount,
+  fecha: new Date().toLocaleString()
+});
+
+guardarHistorial(historial);
+
+        $("#mensaje").removeClass("alert-danger").addClass("alert-success")
+            .text(`Se enviaron $${amount.toLocaleString()} a ${contact}. Saldo actual: $${saldo.toLocaleString()}`)
+            .slideDown(300).delay(2000).slideUp(300);
+
+        $("#amount").val("");
+        $("#contact").val("");
+    });
+});
     </script>
 
 </body>

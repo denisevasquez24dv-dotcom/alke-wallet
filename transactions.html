@@ -53,39 +53,44 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 
-     <script>
-    $(document).ready(function() {
-        function mostrarMovimientos() {
-            // Leer historial desde localStorage
-            let historial = JSON.parse(localStorage.getItem("historial")) || [];
-            const $tbody = $("#tabla-movimientos tbody");
-            $tbody.empty();
+<script>
+function mostrarTransacciones() {
 
-            if(historial.length === 0) {
-                // Mensaje si no hay movimientos
-                $tbody.append(`
-                    <tr>
-                        <td colspan="4" class="text-center text-muted">No hay movimientos registrados</td>
-                    </tr>
-                `).hide().fadeIn(500);
-            } else {
-                historial.forEach(mov => {
-                    const contacto = mov.contacto ? mov.contacto : "-";
-                    $tbody.append(`
-                        <tr>
-                            <td>${mov.tipo}</td>
-                            <td>${contacto}</td>
-                            <td>$${Number(mov.monto).toLocaleString()}</td>
-                            <td>${mov.fecha}</td>
-                        </tr>
-                    `).hide().fadeIn(500);
-                });
-            }
-        }
+  let historial = obtenerHistorial();
 
-        mostrarMovimientos();
-    });
-    </script>
+  const section = document.querySelector("section");
+  if (!section) return;
+
+  if (historial.length === 0) {
+    section.innerHTML = "<p>No hay movimientos registrados</p>";
+    return;
+  }
+
+  let html = `<table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Contacto</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+
+  historial.forEach(tx => {
+    html += `<tr>
+               <td>${tx.tipo}</td>
+               <td>${tx.contacto}</td>
+               <td>${formatoPesosCLP(tx.monto)}</td>
+               <td>${tx.fecha}</td>
+             </tr>`;
+  });
+
+  html += `</tbody></table>`;
+
+  section.innerHTML = html;
+}
+</script>
 
 </body>
 </html>
